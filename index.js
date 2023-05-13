@@ -3,6 +3,12 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+// Routes
+const authRouter = require('./routes/auth');
+
+// Services
+const connectDB = require("./services/database");
+
 const app = express();
 
 dotenv.config({ path: './.env' });
@@ -11,7 +17,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const authRouter = require('./routes/auth');
+// Connect to MongoDB
+connectDB();
+
 app.use('/auth', authRouter);
 
 app.listen(process.env.PORT, () => {
