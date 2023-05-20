@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 // Routes
 const authRouter = require('./routes/auth');
@@ -17,6 +18,7 @@ dotenv.config({ path: './.env' });
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Connect to MongoDB
 connectDB();
