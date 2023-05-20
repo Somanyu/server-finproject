@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const { userRegisterValidation, userLoginValidation } = require("../services/validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.signUp = async (req, res) => {
     try {
@@ -53,12 +54,25 @@ exports.signIn = async (req, res, next) => {
         // Check if email is exists in Collection.
         const user = await User.findOne({ email });
         if (!user) return res.status(403).send({ error: "Email not found. You can register!" });
-        
+
         // Check if password is correct.
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if (!isPasswordCorrect) return res.status(403).send({ error: "Invalid email or password!" });
 
-        return res.status(201).send({success: "Signed in successfully."});
+        // Generate JWT Token.
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "12h",
+        });
+
+        // Set cookie.
+        // res.cookie('token', token, {
+        //     httpOnly: true,
+        //     maxAge: 1000 * 60 * 60 * 24 * 7,
+        //     sameSite: 'lax',
+        //     secure: true,
+        // });
+
+        return res.status(201).send({ success: "Signed in successfully.", token });
     } catch (error) {
         console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
         res.status(500).send({ error: "❌ Internal server error" })
