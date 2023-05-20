@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { userRegisterValidation } = require("../services/validator");
+const { userRegisterValidation, userLoginValidation } = require("../services/validator");
 const bcrypt = require("bcryptjs");
 
 exports.signUp = async (req, res) => {
@@ -13,7 +13,7 @@ exports.signUp = async (req, res) => {
 
         // Check if email is exists in Collection.
         const emailExists = await User.findOne({ email });
-        if (emailExists) return res.status(403).send({ error: "Email already exists" });
+        if (emailExists) return res.status(403).send({ error: "Email already exists." });
 
         // Hash incoming password with "bcryptjs".
         const salt = await bcrypt.genSalt(10); // generates a salt
@@ -35,6 +35,32 @@ exports.signUp = async (req, res) => {
         }
     } catch (error) {
         console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
+        res.status(500).send({ error: "❌ Internal server error" })
+    }
+}
+
+
+
+exports.signIn = async (req, res, next) => {
+    try {
+
+        const { email, password } = req.body;
+
+        // Server side validation for user input during login.
+        const { error } = userLoginValidation(req.body);
+        if (error) return res.status(403).send({ error: error.details[0].message });
+
+        // Check if email is exists in Collection.
+        const user = await User.findOne({ email });
+        if (!user) return res.status(403).send({ error: "Email not found. You can register!" });
+        
+        // Check if password is correct.
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) return res.status(403).send({ error: "Invalid email or password!" });
+
+        return res.status(201).send({success: "Signed in successfully."});
+    } catch (error) {
+        console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
         res.status(500).send({ error: "❌ Internal server error" })
     }
 }
