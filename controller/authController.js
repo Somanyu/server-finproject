@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { userRegisterValidation } = require("../services/validator");
+const bcrypt = require("bcryptjs");
 
 exports.signUp = async (req, res) => {
     try {
@@ -14,13 +15,16 @@ exports.signUp = async (req, res) => {
         const emailExists = await User.findOne({ email });
         if (emailExists) return res.status(403).send({ error: "Email already exists" });
 
+        // Hash incoming password with "bcryptjs".
+        const salt = await bcrypt.genSalt(10); // generates a salt
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         try {
             const userData = new User({
                 fullName: fullName,
                 email: email,
                 phone: phone,
-                password: password,
+                password: hashedPassword,
             });
 
             await userData.save();
