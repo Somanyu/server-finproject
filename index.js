@@ -5,6 +5,7 @@ const cors = require("cors");
 
 // Routes
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 
 // Services
 const connectDB = require("./services/database");
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 connectDB();
 
 app.use('/auth', authRouter);
+app.use('/', userRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`App listening on at http://localhost:${process.env.PORT}`);
