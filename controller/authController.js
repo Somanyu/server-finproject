@@ -74,7 +74,7 @@ exports.signIn = async (req, res, next) => {
             // secure: true,
         });
 
-        return res.status(201).send({ success: "Signed in successfully.", token });
+        return res.status(201).send({ success: "Signed in successfully." });
     } catch (error) {
         console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
         res.status(500).send({ error: "❌ Internal server error" })
