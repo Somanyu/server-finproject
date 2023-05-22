@@ -14,23 +14,6 @@ const verifyToken = async (req, res, next) => {
     } else {
         return res.status(401).json({ error: "No Token" });
     }
-    // // Retrieve Bearer token
-    // const headers = req.headers[`authorization`];
-    // if (headers) {
-    //     const token = headers.split(' ')[1];
-    //     try {
-    //         const decoded = jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-    //             if (error) return res.status(401).json({ error: "1. Invalid Token" });
-    //             // console.log(user._id);
-    //             req.user = user._id; // Id of the user who has logged in.
-    //             next();
-    //         });
-    //     } catch (error) {
-    //         return res.status(401).json({ error: "2. Invalid Token" });
-    //     }
-    // } else {
-    //     return res.status(401).json({ error: "No Token Provided" });
-    // }
 }
 
 const refreshToken = async (req, res, next) => {
@@ -53,7 +36,7 @@ const refreshToken = async (req, res, next) => {
 
             // Generate new JWT Token.
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-                expiresIn: "40s",
+                expiresIn: "36h",
             });
             console.log("REGENERATED TOKEN\n", token)
 
