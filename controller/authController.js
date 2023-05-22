@@ -64,13 +64,19 @@ exports.signIn = async (req, res, next) => {
             expiresIn: "40s",
         });
 
+        console.log("GENERATED TOKEN\n", token);
+
+        if (req.cookies[`${user._id}`]) {
+            req.cookies[`${user._id}`] = "";
+        }
+
         // Set cookie.
         res.cookie(String(user._id), token, {
             httpOnly: true,
             path: '/',
             expires: new Date(Date.now() + 100 * 30),
             maxAge: 1000 * 60 * 60 * 24 * 7,
-            // sameSite: 'lax',
+            sameSite: 'lax',
             // secure: true,
         });
 
