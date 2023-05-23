@@ -86,3 +86,24 @@ exports.signIn = async (req, res, next) => {
         res.status(500).send({ error: "❌ Internal server error" })
     }
 }
+
+
+
+exports.logout = (req, res, next) => {
+    // Retrieve cookies from header.
+    const cookies = req.headers.cookie;
+    if (cookies) {
+        const cookie = cookies.split("=")[1];
+        const token = jwt.verify(cookie, process.env.JWT_SECRET, (error, user) => {
+            if (error) return res.status(401).json({ error: "Invalid Token" });
+
+            // Clear cookies from headers
+            res.clearCookie(`${user._id}`);
+            req.cookies[`${user._id}`] = "";
+
+            return res.status(200).json({ message: 'Logout Successful!' });
+        });
+    } else {
+        return res.status(401).json({ error: "No Token" });
+    }
+}
