@@ -20,9 +20,9 @@ const refreshToken = async (req, res, next) => {
     try {
         // Retrieve cookies from header.
         const cookies = req.headers.cookie;
+        
+        if (!cookies) return res.status(403).json({ message: "Cookie not found!" });
         const previousCookie = cookies.split("=")[1];
-
-        if (!previousCookie) return res.status(403).json({ message: "Cookie not found!" });
         jwt.verify(previousCookie, process.env.JWT_SECRET, (error, user) => {
             console.log("🚀 ~ file: authMiddleware.js:44 ~ jwt.verify ~ previousCookie:", previousCookie)
             if (error) {
