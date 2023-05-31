@@ -1,3 +1,5 @@
+const User = require('../models/User');
+
 exports.twilioMsgStatus = async (req, res, next) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -10,11 +12,19 @@ exports.twilioMsgStatus = async (req, res, next) => {
             to: 'whatsapp:+916370112909'
         });
 
-        // Retrieve the final status of the message
+        const userId = req.user;
+        const user = await User.findById(userId, "-password");
+        // console.log("🚀 ~ file: messageController.js:17 ~ exports.twilioMsgStatus= ~ user:", user)
+
         const messageInfo = await client.messages(message.sid).fetch();
+        
+        // Retrieve the final status of the message
         const isSent = messageInfo.status === 'delivered' || 'sent';
 
-        if (isSent) {
+        // Check if message sent to correct phone number
+        const isNumberVerified = messageInfo.to === 'whatsapp:+91'+'6370112909' 
+
+        if (isSent && isNumberVerified) {
             res.status(201).json({ "status": messageInfo });
         } else {
             res.status(400).json({ "status": messageInfo })
