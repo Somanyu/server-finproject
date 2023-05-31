@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 // Routes
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const messageRouter = require('./routes/message');
 
 // Services
 const connectDB = require("./services/database");
@@ -25,6 +26,7 @@ connectDB();
 
 app.use('/auth', authRouter);
 app.use('/', userRouter);
+app.use('/', messageRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`App listening on at http://localhost:${process.env.PORT}`);
