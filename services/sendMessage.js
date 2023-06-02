@@ -1,6 +1,5 @@
 
 const sendMessage = async (phone, text) => {
-    console.log("🚀 ~ file: sendMessage.js:3 ~ sendMessage ~ phone:", phone)
     try {
         const accountSid = process.env.TWILIO_ACCOUNT_SID;
         const authToken = process.env.TWILIO_AUTH_TOKEN;
