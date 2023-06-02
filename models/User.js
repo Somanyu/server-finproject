@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Define schema for sub-document for expenses
 const expenseSchema = new mongoose.Schema({
     product: { type: String },
-    price: { type: String },
+    price: { type: Number },
     date: { type: Date, default: Date.now }
 })
 
