@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+// Define schema for sub-document for expenses
+const expenseSchema = new mongoose.Schema({
+    product: { type: String },
+    price: { type: String },
+    date: { type: Date, default: Date.now }
+})
+
 const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
@@ -32,6 +39,7 @@ const userSchema = new mongoose.Schema({
         min: 8,
         max: 20,
     },
+    expenses: [expenseSchema],
 
 })
 
