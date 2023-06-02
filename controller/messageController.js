@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const { sendMessage } = require('../services/sendMessage');
+const { addExpenses, showExpenses } = require('../services/expenses');
 
 exports.verifyUserNumber = async (req, res, next) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -22,7 +24,7 @@ exports.verifyUserNumber = async (req, res, next) => {
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         // Retrieve the final status of the message
-        const isSent = messageInfo.status === 'delivered' || messageInfo.status === 'sent';
+        const isSent = messageInfo.status === 'delivered' || messageInfo.status === 'sent' || messageInfo.status === 'read';
 
         // Check if message sent to correct phone number
         const isNumberVerified = messageInfo.to === 'whatsapp:+91' + user.phone
@@ -36,4 +38,35 @@ exports.verifyUserNumber = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
     }
+}
+
+
+exports.receiveMessage = async (req, res, next) => {
+    const from = req.body.From;
+    const body = req.body.Body;
+
+    // phone number format is 'whatsapp:+91XXXXXXXXXX'
+    const phoneNumber = from.substring(12); // Extract the phone number from the 'From' field
+
+    const user = await User.findOne({ phone: phoneNumber }, "-password");
+
+
+    // Check if the sentence contains the word "add" or "Add"
+    if (/(^|\s)(add|Add)($|\s)/.test(body)) {
+        // Extract product and price using RegEx
+        const match = /add\s+(\w+)\s+(\d+)/i.exec(body);
+        if (match) {
+            const product = match[1];
+            const price = Number(match[2]);
+
+            const productText = await addExpenses(user._id, product, price);
+            sendMessage(user.phone, productText);
+
+        } else {
+            res.status(400).json({ error: 'Invalid sentence' });
+        }
+    } else {
+        res.status(400).json({ error: 'Invalid sentence' });
+    }
+
 }
