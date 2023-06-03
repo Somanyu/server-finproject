@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { userRegisterValidation, userLoginValidation } = require("../services/validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { toTitleCase } = require("../utils/stringUtils");
 
 exports.signUp = async (req, res) => {
     try {
@@ -22,7 +23,7 @@ exports.signUp = async (req, res) => {
 
         try {
             const userData = new User({
-                fullName: fullName,
+                fullName: toTitleCase(fullName),
                 email: email,
                 phone: phone,
                 password: hashedPassword,

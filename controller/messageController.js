@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const { sendMessage } = require('../services/sendMessage');
 const { addExpenses, showExpenses } = require('../services/expenses');
+const { toTitleCase } = require("../utils/stringUtils");
 
 exports.verifyUserNumber = async (req, res, next) => {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -51,22 +52,35 @@ exports.receiveMessage = async (req, res, next) => {
     const user = await User.findOne({ phone: phoneNumber }, "-password");
 
 
-    // Check if the sentence contains the word "add" or "Add"
-    if (/(^|\s)(add|Add)($|\s)/.test(body)) {
-        // Extract product and price using RegEx
-        const match = /add\s+(\w+)\s+(\d+)/i.exec(body);
-        if (match) {
-            const product = match[1];
-            const price = Number(match[2]);
+    // Check if the sentence contains the word "add" or "Add" or "show" or "Show"
+    if (/(^|\s)(add|Add|show|Show)($|\s)/.test(body)) {
+        // Check if the sentence contains the word "add" or "Add"
+        if (/(^|\s)(add|Add)($|\s)/.test(body)) {
+            // Extract product and price using RegEx
+            const match = /add\s+(\w+)\s+(\d+)/i.exec(body);
+            if (match) {
+                const product = toTitleCase(match[1]);
+                const price = Number(match[2]);
 
-            const productText = await addExpenses(user._id, product, price);
-            sendMessage(user.phone, productText);
-
+                const productText = await addExpenses(user._id, product, price);
+                sendMessage(user.phone, productText);
+            } else {
+                return res.status(400).json({ error: 'Invalid sentence' });
+            }
         } else {
-            res.status(400).json({ error: 'Invalid sentence' });
+            // Handle the case when the sentence contains the word "show" or "Show"
+            const data = await showExpenses(user._id);
+            let dataString = ""
+            let totalExpenses = 0
+            for (let i = 0; i < data.expenses.length; i++) {
+                dataString += `Product - ${data.expenses[i].product}, Price - ${data.expenses[i].price}\n`;
+                totalExpenses += data.expenses[i].price
+            }
+            sendMessage(user.phone, dataString);
+            sendMessage(user.phone, `💰 Total expenses: *${totalExpenses}*`);
         }
     } else {
-        res.status(400).json({ error: 'Invalid sentence' });
+        return res.status(400).json({ error: 'Invalid sentence' });
     }
 
 }
