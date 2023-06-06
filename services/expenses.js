@@ -13,7 +13,7 @@ const addExpenses = async (id, product, price) => {
         const text = `✅ ${product} added with ${price}.`;
         return text;
     } catch (error) {
-        console.log("🚀 ~ file: expenses.js:15 ~ addExpenses ~ error:", error);
+        // console.log("🚀 ~ file: expenses.js:15 ~ addExpenses ~ error:", error);
         throw error;
     }
 };

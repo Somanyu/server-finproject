@@ -24,9 +24,9 @@ const refreshToken = async (req, res, next) => {
         if (!cookies) return res.status(403).json({ message: "Cookie not found!" });
         const previousCookie = cookies.split("=")[1];
         jwt.verify(previousCookie, process.env.JWT_SECRET, (error, user) => {
-            console.log("🚀 ~ file: authMiddleware.js:44 ~ jwt.verify ~ previousCookie:", previousCookie)
+            // console.log("🚀 ~ file: authMiddleware.js:44 ~ jwt.verify ~ previousCookie:", previousCookie)
             if (error) {
-                console.log("🚀 ~ file: authMiddleware.js:45 ~ jwt.verify ~ error:", error);
+                // console.log("🚀 ~ file: authMiddleware.js:45 ~ jwt.verify ~ error:", error);
                 return res.status(401).json({ error: "Authentication Failed." });
             }
 
@@ -38,7 +38,7 @@ const refreshToken = async (req, res, next) => {
             const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
                 expiresIn: "36h",
             });
-            console.log("REGENERATED TOKEN\n", token)
+            // console.log("REGENERATED TOKEN\n", token)
 
             // Set new cookie.
             res.cookie(String(user._id), token, {
@@ -55,7 +55,8 @@ const refreshToken = async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log("🚀 ~ file: authController.js:122 ~ exports.refreshToken= ~ error:", error);
+        // console.log("🚀 ~ file: authController.js:122 ~ exports.refreshToken= ~ error:", error);
+        return res.status(500).json({ error: "Server error." });
     }
 }
 

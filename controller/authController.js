@@ -36,8 +36,8 @@ exports.signUp = async (req, res) => {
             return res.status(500).send({ success: 'Sign up unsuccessfully' })
         }
     } catch (error) {
-        console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
-        res.status(500).send({ error: "❌ Internal server error" })
+        // console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
+        return res.status(500).send({ error: "❌ Internal server error" })
     }
 }
 
@@ -65,7 +65,7 @@ exports.signIn = async (req, res, next) => {
             expiresIn: "36h",
         });
 
-        console.log("GENERATED TOKEN\n", token);
+        // console.log("GENERATED TOKEN\n", token);
 
         if (req.cookies[`${user._id}`]) {
             req.cookies[`${user._id}`] = "";
@@ -83,8 +83,8 @@ exports.signIn = async (req, res, next) => {
 
         return res.status(201).send({ success: "Signed in successfully." });
     } catch (error) {
-        console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
-        res.status(500).send({ error: "❌ Internal server error" })
+        // console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
+        return res.status(500).send({ error: "❌ Internal server error" })
     }
 }
 
