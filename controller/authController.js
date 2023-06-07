@@ -65,7 +65,7 @@ exports.signIn = async (req, res, next) => {
             expiresIn: "36h",
         });
 
-        // console.log("GENERATED TOKEN\n", token);
+        console.log("GENERATED TOKEN\n", token);
 
         if (req.cookies[`${user._id}`]) {
             req.cookies[`${user._id}`] = "";
