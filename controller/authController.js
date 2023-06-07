@@ -74,7 +74,7 @@ exports.signIn = async (req, res, next) => {
         // Set cookie.
         res.cookie(String(user._id), token, {
             httpOnly: true,
-            path: '/*',
+            path: '/',
             expires: new Date(Date.now() + 100 * 30),
             maxAge: 1000 * 60 * 60 * 24 * 7,
             // sameSite: 'lax',
