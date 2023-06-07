@@ -33,7 +33,7 @@ exports.signUp = async (req, res) => {
 
             return res.status(201).send({ success: 'Sign up successfully. You can sign in.' })
         } catch (error) {
-            return res.status(500).send({ success: 'Sign up unsuccessfully' })
+            return res.status(500).send({ error: error })
         }
     } catch (error) {
         // console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
