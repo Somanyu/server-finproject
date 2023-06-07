@@ -78,7 +78,7 @@ exports.signIn = async (req, res, next) => {
             expires: new Date(Date.now() + 100 * 30),
             maxAge: 1000 * 60 * 60 * 24 * 7,
             sameSite: 'lax',
-            domain: 'onrender.com'
+            domain: '.onrender.com'
             // secure: true,
         });
 
