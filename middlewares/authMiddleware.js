@@ -4,6 +4,7 @@ const verifyToken = async (req, res, next) => {
 
     // Retrieve cookies from header.
     const cookies = req.headers.cookie;
+    console.log("🚀 ~ file: authMiddleware.js:7 ~ verifyToken ~ cookies:", cookies)
     if (cookies) {
         const cookie = cookies.split("=")[1];
         const token = jwt.verify(cookie, process.env.JWT_SECRET, (error, user) => {
