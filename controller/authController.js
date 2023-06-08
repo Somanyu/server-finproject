@@ -67,9 +67,9 @@ exports.signIn = async (req, res, next) => {
 
         console.log("GENERATED TOKEN\n", token);
 
-        // if (req.cookies[`${user._id}`]) {
-        //     req.cookies[`${user._id}`] = "";
-        // }
+        if (req.cookies[`${user._id}`]) {
+            req.cookies[`${user._id}`] = "";
+        }
 
         // Set cookie.
         res.cookie(String(user._id), token, {
