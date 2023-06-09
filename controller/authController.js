@@ -77,9 +77,9 @@ exports.signIn = async (req, res, next) => {
             path: '/*',
             expires: new Date(Date.now() + 100 * 30),
             maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: 'none',
-            domain: 'finapp.somanyu.tech',
-            secure: true,
+            // sameSite: 'none',
+            // domain: 'finapp.somanyu.tech',
+            // secure: true,
         });
 
         return res.status(201).send({ success: "Signed in successfully." });
