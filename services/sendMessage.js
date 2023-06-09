@@ -10,7 +10,7 @@ const sendMessage = async (phone, text) => {
             body: `${text}`,
             to: `whatsapp:+91${phone}`
         }).catch(error => {
-            // console.log("🚀 ~ file: sendMessage.js:14 ~ sendMessage ~ error:", error)
+            console.log("🚀 ~ file: sendMessage.js:14 ~ sendMessage ~ error:", error)
             client.messages.create({
                 from: 'whatsapp:+14155238886',
                 body: `${text}`,
@@ -18,7 +18,7 @@ const sendMessage = async (phone, text) => {
             })
         })
     } catch (error) {
-        // console.log("🚀 ~ file: sendMessage.js:22 ~ sendMessage ~ error:", error)
+        console.log("🚀 ~ file: sendMessage.js:22 ~ sendMessage ~ error:", error)
     }
 }
 

@@ -36,8 +36,8 @@ exports.signUp = async (req, res) => {
             return res.status(500).send({ error: error })
         }
     } catch (error) {
-        // console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
-        return res.status(500).send({ error: "❌ Internal server error" })
+        console.log("🚀 ~ file: authController.js:20 ~ exports.signUp= ~ error:", error)
+        res.status(500).send({ error: "❌ Internal server error" })
     }
 }
 
@@ -84,8 +84,8 @@ exports.signIn = async (req, res, next) => {
 
         return res.status(201).send({ success: "Signed in successfully." });
     } catch (error) {
-        // console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
-        return res.status(500).send({ error: "❌ Internal server error" })
+        console.log("🚀 ~ file: authController.js:57 ~ exports.signIn= ~ error:", error)
+        res.status(500).send({ error: "❌ Internal server error" })
     }
 }
 
