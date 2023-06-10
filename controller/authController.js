@@ -13,9 +13,14 @@ exports.signUp = async (req, res) => {
         const { error } = userRegisterValidation(req.body);
         if (error) return res.status(403).send({ error: error.details[0].message });
 
-        // Check if email is exists in Collection.
+        // Check if email exists in Collection.
         const emailExists = await User.findOne({ email });
         if (emailExists) return res.status(403).send({ error: "Email already exists." });
+        
+        // Check if phone number exists in Collection.
+        const phoneNumberExists = await User.findOne({ phone });
+        if (phoneNumberExists) return res.status(403).send({ error: "Phone number already exists." });
+
 
         // Hash incoming password with "bcryptjs".
         const salt = await bcrypt.genSalt(10); // generates a salt
@@ -74,11 +79,10 @@ exports.signIn = async (req, res, next) => {
         // Set cookie.
         res.cookie(String(user._id), token, {
             httpOnly: true,
-            path: '/*',
+            path: '/',
             expires: new Date(Date.now() + 100 * 30),
             maxAge: 1000 * 60 * 60 * 24 * 7,
-            // sameSite: 'none',
-            // domain: 'finapp.somanyu.tech',
+            sameSite: 'lax',
             // secure: true,
         });
 
