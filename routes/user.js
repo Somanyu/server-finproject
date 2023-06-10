@@ -5,5 +5,6 @@ const userController = require('../controller/userController');
 
 router.get('/user', verifyToken, userController.getUser);
 router.get('/refresh', refreshToken, verifyToken, userController.getUser);
+router.post('/user/update', refreshToken, verifyToken, userController.userUpdate);
 
 module.exports = router;
