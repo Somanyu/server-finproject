@@ -17,12 +17,12 @@ exports.verifyUserNumber = async (req, res, next) => {
             from: 'whatsapp:+14155238886',
             body: `
             Hello ${user.fullName} 👋 You are *verified* 🎉 
-            Welcome to Expense Tracker. Get started tracking your small expenses.
 
-            Send 'add' followed by the product name and price. For example: *Add apple 30*
-            Send 'show' to see your total expenses.
-            
-            Thanks for using Expense Tracker.
+Welcome to Expense Tracker. Get started tracking your small expenses.
+Send '_add_' followed by the product name and price. For example: *Add apple 30*
+Send '_show_' to see your total expenses.
+
+Thanks for using Expense Tracker.
             `,
             to: `whatsapp:+91${user.phone}`
         });
