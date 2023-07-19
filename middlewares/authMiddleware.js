@@ -52,7 +52,7 @@ const refreshToken = async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log("🚀 ~ file: authController.js:122 ~ exports.refreshToken= ~ error:", error);
+        // console.log("🚀 ~ file: authController.js:122 ~ exports.refreshToken= ~ error:", error);
     }
 }
 

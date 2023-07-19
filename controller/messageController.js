@@ -15,7 +15,9 @@ exports.verifyUserNumber = async (req, res, next) => {
 
         const message = await client.messages.create({
             from: 'whatsapp:+14155238886',
-            body: 'Hello there!',
+            body: `Hello ${user.fullName}!. You are *verified*. Get started tracking your small expenses
+                   Send 'add' followed by the product name and price. For example: *Add apple 30*
+                   Send 'show' to see your total expenses.`,
             to: `whatsapp:+91${user.phone}`
         });
 
