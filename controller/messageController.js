@@ -68,7 +68,9 @@ exports.receiveMessage = async (req, res, next) => {
             const match = /add\s+([\w\s]+)\s+(\d+)/i.exec(body);
             if (match) {
                 const product = toTitleCase(match[1]);
+                // console.log("🚀 ~ file: messageController.js:71 ~ exports.receiveMessage= ~ product:", product)
                 const price = Number(match[2]);
+
 
                 const productText = await addExpenses(user._id, product, price);
                 sendMessage(user.phone, productText);
