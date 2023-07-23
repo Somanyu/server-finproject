@@ -73,6 +73,7 @@ exports.receiveMessage = async (req, res, next) => {
                 const productText = await addExpenses(user._id, product, price);
                 sendMessage(user.phone, productText);
             } else {
+                sendMessage(user.phone, 'Invalid sentence');
                 return res.status(400).json({ error: 'Invalid sentence' });
             }
         } else {
@@ -88,6 +89,7 @@ exports.receiveMessage = async (req, res, next) => {
             sendMessage(user.phone, `💰 Total expenses: *${totalExpenses}*`);
         }
     } else {
+        sendMessage(user.phone, 'Invalid sentence');
         return res.status(400).json({ error: 'Invalid sentence' });
     }
 
