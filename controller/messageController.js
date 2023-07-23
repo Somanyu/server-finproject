@@ -65,7 +65,7 @@ exports.receiveMessage = async (req, res, next) => {
         // Check if the sentence contains the word "add" or "Add"
         if (/(^|\s)(add|Add)($|\s)/.test(body)) {
             // Extract product and price using RegEx
-            const match = /add\s+(\w+)\s+(\d+)/i.exec(body);
+            const match = /add\s+([\w\s]+)\s+(\d+)/i.exec(body);
             if (match) {
                 const product = toTitleCase(match[1]);
                 const price = Number(match[2]);
