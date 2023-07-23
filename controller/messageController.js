@@ -19,8 +19,8 @@ exports.verifyUserNumber = async (req, res, next) => {
             Hello ${user.fullName} 👋 You are *verified* 🎉 
 
 Welcome to Expense Tracker. Get started tracking your small expenses.
-Send '_add_' followed by the product name and price. For example: *Add apple 30*
-Send '_show_' to see your total expenses.
+Send _'add'_ followed by the product name and price. For example: *Add apple 30*
+Send _'show'_ to see your total expenses.
 
 Thanks for using Expense Tracker.
             `,
